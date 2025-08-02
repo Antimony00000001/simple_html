@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现代CSS全方位入门教程</title>
+
+    <style>
+        /* === 1. 页面基础与布局样式 === */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .sidebar {
+            width: 240px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #2c3e50; /* Changed color for CSS theme */
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .sidebar ul { list-style-type: none; padding: 0; }
+        .sidebar li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .sidebar li a:hover {
+            color: #ffffff;
+            background-color: #34495e;
+        }
+        .main-content { margin-left: 260px; padding: 20px 40px; }
+        h1, h2, h3 { color: #2c3e50; font-weight: 600; }
+        h1 { border-bottom: 2px solid #bdc3c7; padding-bottom: 10px; }
+        h2 { margin-top: 40px; border-bottom: 1px solid #ecf0f1; padding-bottom: 8px; }
+        h2:first-of-type { margin-top: 0; }
+        h3 { margin-top: 30px; }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+        p > code, li > code { background-color: #ecf0f1; color: #e74c3c; padding: 2px 5px; border-radius: 4px; }
+        .demo-box {
+            border: 1px solid #bdc3c7;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            position: relative; /* 用于定位演示 */
+            overflow: hidden; /* 防止内容溢出 */
+        }
+        .highlight { color: #e67e22; font-weight: bold; }
+        hr { border: 1px solid #ecf0f1; margin: 40px 0; }
+
+
+        /* === 2. 选择器演示样式 === */
+        .selectors-demo p { color: #2980b9; }
+        .selectors-demo .class-selector { color: #c0392b; font-weight: bold; }
+        .selectors-demo #id-selector { color: #8e44ad; font-style: italic; }
+        .selectors-demo input[type="text"] { border: 2px solid #27ae60; }
+        .selectors-demo .descendant-combinator p { border-left: 3px solid #f1c40f; padding-left: 10px; }
+        .selectors-demo .child-combinator > p { background-color: #ecf0f1; }
+        .selectors-demo h3 + p { text-decoration: underline; }
+        .selectors-demo li:hover { background-color: #f1c40f; cursor: pointer; }
+        .selectors-demo li:nth-child(odd) { background-color: #f9f9f9; }
+        .selectors-demo .pseudo-element-demo::first-letter { font-size: 2em; color: #16a085; }
+        .selectors-demo .pseudo-element-demo::before { content: "✓ "; color: #27ae60; }
+
+        /* === 3. 盒模型演示样式 === */
+        .box-model-demo .box {
+            width: 200px;
+            height: 100px;
+            padding: 20px;
+            border: 10px solid #3498db;
+            margin: 30px;
+            background-color: #ecf0f1;
+            text-align: center;
+            line-height: 100px;
+            font-weight: bold;
+        }
+        .box-model-demo .border-box {
+            box-sizing: border-box;
+        }
+
+        /* === 4. 文本排版演示样式 === */
+        .typography-demo .font-demo {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .typography-demo .text-style-demo {
+            line-height: 1.8;
+            text-align: justify;
+            text-decoration: underline;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* === 5. 颜色背景演示样式 === */
+        .backgrounds-demo div {
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+        }
+        .backgrounds-demo .bg-color { background-color: #e74c3c; }
+        .backgrounds-demo .bg-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Vaporwave-4K-Wallpapers.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 150px;
+        }
+        .backgrounds-demo .bg-gradient { background-image: linear-gradient(to right, #3498db, #8e44ad); }
+
+        /* === 6. 布局技术演示样式 === */
+        /* Position */
+        .position-demo .pos-box { width: 80px; height: 80px; color: white; display: flex; align-items: center; justify-content: center; }
+        .position-demo .relative { background-color: #3498db; position: relative; top: 20px; left: 20px; }
+        .position-demo .absolute { background-color: #e74c3c; position: absolute; top: 0; right: 0; }
+        .position-demo .fixed { background-color: #9b59b6; position: fixed; bottom: 20px; right: 20px; z-index: 100; }
+        .position-demo .sticky { background-color: #16a085; position: sticky; top: 10px; }
+
+        /* Flexbox */
+        .flexbox-demo .flex-container {
+            display: flex;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            /* Flex properties */
+            justify-content: space-around;
+            align-items: center;
+            height: 150px;
+            gap: 10px;
+        }
+        .flexbox-demo .flex-item {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            flex-grow: 1; /* 让项目扩展填充空间 */
+        }
+        .flexbox-demo .flex-item:nth-child(2) { flex-grow: 2; background-color: #2980b9; }
+
+        /* Grid */
+        .grid-demo .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 10px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .grid-demo .grid-item {
+            background-color: #e74c3c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .grid-demo .item1 {
+            grid-column: 1 / span 2; /* 跨越2列 */
+            grid-row: 1;
+        }
+        .grid-demo .item5 {
+            grid-column: 3;
+            grid-row: 1 / span 2; /* 跨越2行 */
+        }
+
+        /* === 7. 变换过渡动画演示样式 === */
+        /* Transform */
+        .transform-demo .transform-box {
+            width: 100px; height: 100px; background-color: #f1c40f; margin: 30px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.5s ease; /* 添加过渡效果 */
+        }
+        .transform-demo .transform-box:hover {
+            transform: rotate(45deg) scale(1.2);
+        }
+        /* Animation */
+        .animation-demo .animation-box {
+            width: 100px; height: 100px; background-color: #e74c3c;
+            border-radius: 50%; /* 圆形 */
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+        }
+
+        /* === 8. 响应式设计演示样式 === */
+        .responsive-demo .responsive-container {
+            display: flex;
+            gap: 15px;
+        }
+        .responsive-demo .responsive-box {
+            background-color: #1abc9c;
+            color: white;
+            padding: 20px;
+            flex-basis: 100%; /* 默认占满 */
+            text-align: center;
+            border-radius: 5px;
+        }
+        /* Media Query */
+        @media (max-width: 1024px) {
+            .responsive-demo .responsive-container {
+                flex-wrap: wrap; /* 在窄屏下换行 */
+            }
+            .sidebar { display: none; } /* 在窄屏下隐藏侧边栏 */
+            .main-content { margin-left: 0; } /* 在窄屏下主内容占满宽度 */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>CSS 教程目录</h2>
+        <ul>
+            <li><a href="#section-1">1. 介绍与语法</a></li>
+            <li><a href="#section-2">2. 选择器</a></li>
+            <li><a href="#section-3">3. 盒模型</a></li>
+            <li><a href="#section-4">4. 文本与排版</a></li>
+            <li><a href="#section-5">5. 颜色与背景</a></li>
+            <li><a href="#section-6">6. 核心布局技术</a></li>
+            <li><a href="#section-7">7. 变换, 过渡, 动画</a></li>
+            <li><a href="#section-8">8. 响应式设计</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h1>现代CSS全方位入门教程</h1>
+        <p>CSS (Cascading Style Sheets) 是用于描述HTML文档外观和格式的语言。本教程将通过交互式示例，带你掌握从基础到高级的现代CSS技术。</p>
+
+        <h2 id="section-1">1. 介绍与语法</h2>
+        <p>CSS用于为HTML元素“穿上”漂亮的衣服。其基本语法由一个<span class="highlight">选择器</span>和一个<span class="highlight">声明块</span>组成。声明块包含一个或多个由分号分隔的<span class="highlight">属性:值</span>对。</p>
+        <pre><code>/* 这是一个CSS注释 */
+p {
+  color: blue; /* 将所有p标签的文字颜色设为蓝色 */
+  font-size: 16px;
+}
+</code></pre>
+        <h3>添加CSS的三种方式</h3>
+        <ol>
+            <li><b>内部样式表</b>: 使用 <code>&lt;style&gt;</code> 标签放在 <code>&lt;head&gt;</code> 内。(本教程使用的方式)</li>
+            <li><b>外部样式表</b>: 将CSS代码保存为 <code>.css</code> 文件，使用 <code>&lt;link&gt;</code> 标签引入。 (推荐方式)</li>
+            <li><b>内联样式</b>: 直接在HTML元素的 <code>style</code> 属性中书写。(不推荐，难以维护)</li>
+        </ol>
+
+
+        <h2 id="section-2">2. 选择器 (Selectors)</h2>
+        <p>选择器是CSS的基石，它能“选中”你想要施加样式的HTML元素。</p>
+        <div class="demo-box selectors-demo">
+            <p>这是一个通过<b>元素选择器</b>(p)选中的段落。</p>
+            <p class="class-selector">这是一个通过<b>类选择器</b>(.class-selector)选中的段落。</p>
+            <p id="id-selector">这是一个通过<b>ID选择器</b>(#id-selector)选中的段落。</p>
+            <input type="text" placeholder="通过属性选择器[type=text]选中">
+            <div class="descendant-combinator">我是父div<p>我是后代选择器选中的p</p></div>
+            <div class="child-combinator">我是父div<p>我是子选择器选中的p</p><div><p>我不会被选中</p></div></div>
+            <h3>一个H3标题</h3><p>我是紧随H3的兄弟选择器选中的p</p>
+            <ul>鼠标悬停在列表项上试试（伪类:hover）
+                <li>第一项 (奇数项有背景色)</li>
+                <li>第二项</li>
+                <li>第三项 (奇数项有背景色)</li>
+            </ul>
+            <p class="pseudo-element-demo">这段文字演示了::first-letter和::before伪元素。</p>
+        </div>
+
+        <h2 id="section-3">3. 盒模型 (Box Model)</h2>
+        <p>在CSS中，每个元素都被看作一个矩形的盒子。盒模型描述了这些盒子是如何构成的。</p>
+        <p>它由内到外包括：<span class="highlight">内容(content)</span>, <span class="highlight">内边距(padding)</span>, <span class="highlight">边框(border)</span>, 和<span class="highlight">外边距(margin)</span>。</p>
+        <div class="demo-box box-model-demo">
+            <div class="box">Content</div>
+            <p><code>box-sizing: border-box;</code> 是现代CSS布局的最佳实践，它让元素的宽高计算更直观。设置width和height时，padding和border将被包含在内。</p>
+            <div class="box border-box">Content (border-box)</div>
+        </div>
+
+        <h2 id="section-4">4. 文本与排版 (Typography)</h2>
+        <p>CSS提供了丰富的属性来控制文本的外观。</p>
+        <div class="demo-box typography-demo">
+            <p class="font-demo">这段文字展示了字体(font)相关的样式。</p>
+            <p class="text-style-demo">这段文字展示了文本(text)相关的样式，如行高、对齐、装饰、大小写转换和字母间距等。</p>
+        </div>
+
+        <h2 id="section-5">5. 颜色与背景</h2>
+        <p>你可以为元素设置颜色和多样化的背景。</p>
+        <div class="demo-box backgrounds-demo">
+            <div class="bg-color">纯色背景 (background-color)</div>
+            <div class="bg-gradient">线性渐变背景 (linear-gradient)</div>
+            <div class="bg-image">背景图片 (background-image)</div>
+        </div>
+
+        <h2 id="section-6">6. 核心布局技术 (Layout)</h2>
+        <p>掌握布局是CSS的重中之重。现代布局主要依赖Position, Flexbox和Grid。</p>
+        <h3>Position 定位</h3>
+        <div class="demo-box position-demo" style="height: 200px;">
+            <div class="pos-box relative">Relative</div>
+            <div class="pos-box absolute">Absolute</div>
+            <p>滚动页面查看Sticky效果 &rarr;</p>
+            <div class="pos-box sticky">Sticky</div>
+            <div class="pos-box fixed">Fixed (固定在右下角)</div>
+        </div>
+        <h3>Flexbox 弹性布局</h3>
+        <p>Flexbox是一维布局模型，非常适合构建组件和对齐元素。</p>
+        <div class="demo-box flexbox-demo">
+            <div class="flex-container">
+                <div class="flex-item">Item 1 (grow: 1)</div>
+                <div class="flex-item">Item 2 (grow: 2)</div>
+                <div class="flex-item">Item 3 (grow: 1)</div>
+            </div>
+        </div>
+        <h3>Grid 网格布局</h3>
+        <p>Grid是二维布局模型，能同时处理行和列，非常适合进行整个页面的宏观布局。</p>
+        <div class="demo-box grid-demo">
+            <div class="grid-container">
+                <div class="grid-item item1">Item 1 (跨2列)</div>
+                <div class="grid-item">2</div>
+                <div class="grid-item">3</div>
+                <div class="grid-item">4</div>
+                <div class="grid-item item5">Item 5 (跨2行)</div>
+                <div class="grid-item">6</div>
+            </div>
+        </div>
+
+        <h2 id="section-7">7. 变换, 过渡, 动画</h2>
+        <p>CSS可以为元素添加丰富的动态效果，让页面“活”起来。</p>
+        <h3>Transform (变换)</h3>
+        <p>改变元素的形状、大小和位置。将鼠标悬停在下方的方块上试试。</p>
+        <div class="demo-box transform-demo">
+            <div class="transform-box">Hover Me!</div>
+        </div>
+        <h3>Animation (动画)</h3>
+        <p>通过 <code>@keyframes</code> 创建复杂的动画序列。</p>
+        <div class="demo-box animation-demo">
+            <div class="animation-box"></div>
+        </div>
+
+        <h2 id="section-8">8. 响应式设计 (Responsive Design)</h2>
+        <p>通过媒体查询 (Media Queries)，让你的网站在不同尺寸的设备（手机、平板、桌面电脑）上都能良好地显示。</p>
+        <p>请尝试缩放你的浏览器窗口，当宽度小于1024px时，下方的盒子会垂直排列，并且左侧的导航栏会消失。</p>
+        <div class="demo-box responsive-demo">
+            <div class="responsive-container">
+                <div class="responsive-box">Box 1</div>
+                <div class="responsive-box">Box 2</div>
+                <div class="responsive-box">Box 3</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
